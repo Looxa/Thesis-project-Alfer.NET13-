@@ -13,8 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+// Должен быть пустой. Вся логика отдельными классами, все переменные в логике!!
+
+
 namespace Test_WPF_App
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -30,7 +34,7 @@ namespace Test_WPF_App
             string text = textBox1.Text;
             if (text != "")
             {
-                MessageBox.Show($"Введённое сообщение: { text}");
+                MessageBox.Show($"Введённое сообщение: {text}");
             }
             else
             {

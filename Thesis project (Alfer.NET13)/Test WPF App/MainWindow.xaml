@@ -4,17 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Test_WPF_App"
+        DataContext=""
         mc:Ignorable="d"
         Title="Test WPF Window" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FF464646" Offset="1"/>
                 <GradientStop Color="White" Offset="0"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Button x:Name="button1" Content="Тестовая кнопка" FontSize="22"
-                Click="Button_Click" Margin="0,136,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Height="144" Width="230" >
+        <Button  Grid.Row="1" x:Name="button1" Content="Тестовая кнопка" FontSize="22"     
+                Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Center" Height="144" Width="230" >
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFC5C5C5" Offset="0"/>
@@ -22,7 +27,9 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <TextBox x:Name="textBox1" Width="150" Height="30" VerticalAlignment="Top" Margin="325,87,325,0" TextAlignment="Center" TextWrapping="Wrap" BorderBrush="#FF003CF1" BorderThickness="1,1,2,1" HorizontalAlignment="Left" FontSize="18" FontStyle="Italic" >
+        <TextBox Grid.Row="0" x:Name="textBox1" Width="150" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"
+                 TextWrapping="Wrap" BorderBrush="#FF003CF1" FontSize="18" FontStyle="Italic" Text=""
+                 MaxLength="10">
             <TextBox.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
             </TextBox.Foreground>
