@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Files</h1>
+    
+</div>
+
+
+@foreach(var files in ViewBag.Files)
+{
+    <p>Id = @files.fileId, Name = @files.fileName, Type = @files.fileType, Size = @files.fileSize </p>
+}
