@@ -6,7 +6,7 @@ namespace FileSharer.Web.Services
     {
         public IEnumerable<FileSharer.ClassLibrary.Entities.File> GetAll();
 
-        public void Add(string fileName, string fileType, int fileSize);
+        public void Add(string fileName, string filePath);
 
         public void Delete(int id);
     }
@@ -28,20 +28,20 @@ namespace FileSharer.Web.Services
             {
                 fileId = x.fileId,
                 fileName = x.fileName,
+                filePath = x.filePath,
                 fileType = x.fileType,
                 fileSize = x.fileSize
             });
         }
-        public void Add(string fileName, string fileType, int fileSize)
+        public void Add(string fileName, string filePath)
         {
-            _context.Files.Add(new Data.EntityF.File() { fileName = fileName, fileType = fileType, fileSize = fileSize });
+            _context.Files.Add(new Data.EntityF.File() { fileName = fileName, filePath = filePath});
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             var file = _context.Files.Find(id);
-            _context.Files.Attach(file);
             _context.Files.Remove(file);
             _context.SaveChanges();
         }
