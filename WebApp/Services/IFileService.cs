@@ -30,7 +30,8 @@ namespace FileSharer.Web.Services
                 fileName = x.fileName,
                 filePath = x.filePath,
                 fileType = x.fileType,
-                fileSize = x.fileSize
+                fileSize = x.fileSize,
+                userId = x.userId
             });
         }
         public void Add(string fileName, string filePath)

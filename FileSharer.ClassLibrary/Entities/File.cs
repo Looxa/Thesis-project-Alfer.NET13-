@@ -13,11 +13,10 @@ namespace FileSharer.ClassLibrary.Entities
         public string filePath { get; set; }
         public string fileType { get; set; }
         public long fileSize { get; set; }
-        
-       // public string fileDescription { get; set; }
-       // public DateTime fileUploadDate { get; set; }
-       // public int fileCategoryId { get; set; }
-       // public int fileOwnerId { get; set; }      
+        public int userId { get; set; }
+        // public string fileDescription { get; set; }   // Нужно-ли?
+        // public DateTime fileUploadDate { get; set; }  // Реализовать для организации поиска по дате загрузки
+        // public int fileCategoryId { get; set; }      // Если реализую красивое разбиение файлов по папкам     
 
     }
 }

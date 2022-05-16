@@ -36,8 +36,9 @@ namespace FileSharer.Web.Controllers
         }
 
         [HttpDelete("[controller]/")]
-        public void DeleteBook(int id)
+        public void DeleteFile(int id)
         {
+            // ДОБАВИТЬ,  БЕЗ УДАЛЕНИЯ ФАЙЛА, ТОЛЬКО УДАЛЕНИЕ В БД, НЕ КАСКАДНОЕ
             _fileService.Delete(id);
         }
          
@@ -58,7 +59,8 @@ namespace FileSharer.Web.Controllers
 
                 long size = new System.IO.FileInfo(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\" + path).Length;
                 string type = new System.IO.FileInfo(path).Extension;
-                Data.EntityF.File file = new Data.EntityF.File { fileName = uploadedFile.FileName, filePath = path, fileSize = size, fileType = type };
+                int userid = 1;  //  ХАРДКОД, ЗАМЕНИТЬ ПРИ АДЕКВАТНОЙ АВТОРИЗАЦИИ ПОЛЬЗОВАТЕЛЯ, ДОБАВИТЬ ПРОВЕРКУ НА РОЛЬ ПОЛЬЗОВАТЕЛЯ 
+                Data.EntityF.File file = new Data.EntityF.File { fileName = uploadedFile.FileName, filePath = path, fileSize = size, fileType = type, userId = userid };
                 _context.Files.Add(file);
                 _context.SaveChanges();
             }

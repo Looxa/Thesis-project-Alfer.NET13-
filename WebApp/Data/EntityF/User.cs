@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileSharer.ClassLibrary.Entities
+namespace FileSharer.Web.Data.EntityF
 {
-    internal class User
+    public class User
     {
         public int userId { get; set; }
         public string email { get; set; }
