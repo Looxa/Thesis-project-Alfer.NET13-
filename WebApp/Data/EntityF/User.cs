@@ -13,6 +13,7 @@ namespace FileSharer.Web.Data.EntityF
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string avatar { get; set; }  // url? DB? 
-        public string roleId { get; set; }
+        public string RoleId { get; set; }
+        public Role? Role { get; set; }
     }
 }

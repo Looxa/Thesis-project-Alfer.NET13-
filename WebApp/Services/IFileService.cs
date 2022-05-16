@@ -26,12 +26,12 @@ namespace FileSharer.Web.Services
 
             return _context.Files.Select(x => new FileSharer.ClassLibrary.Entities.File()
             {
-                fileId = x.fileId,
+                Id = x.Id,
                 fileName = x.fileName,
                 filePath = x.filePath,
                 fileType = x.fileType,
                 fileSize = x.fileSize,
-                userId = x.userId
+                UserId = x.UserId
             });
         }
         public void Add(string fileName, string filePath)

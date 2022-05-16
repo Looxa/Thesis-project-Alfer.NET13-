@@ -8,10 +8,11 @@ namespace FileSharer.Web.Data.EntityF
 {
     public class AccountInfo
     {
-        public string accountId { get; set; }
+        public string Id { get; set; }
         public string login { get; set; } = null!;
         public string passwordHash { get; set; } = null!;
         public DateTime RegistrationDate { get; set; }
-        public int userId { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; } = null!;
     }
 }

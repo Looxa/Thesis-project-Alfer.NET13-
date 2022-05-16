@@ -8,7 +8,7 @@ namespace FileSharer.ClassLibrary.Entities
 {
     internal class Role
     {
-        public int roleId { get; set; }
+        public int Id { get; set; }
         public string roleName { get; set; }
     }
 }
