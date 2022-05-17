@@ -60,7 +60,7 @@ namespace FileSharer.Web.Controllers
                 long size = new System.IO.FileInfo(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\" + path).Length;
                 string type = new System.IO.FileInfo(path).Extension;
                 int userid = 1;  //  ХАРДКОД, ЗАМЕНИТЬ ПРИ АДЕКВАТНОЙ АВТОРИЗАЦИИ ПОЛЬЗОВАТЕЛЯ, ДОБАВИТЬ ПРОВЕРКУ НА РОЛЬ ПОЛЬЗОВАТЕЛЯ 
-                Data.EntityF.File file = new Data.EntityF.File { FileName = uploadedFile.FileName, FilePath = path, FileSize = size, FileType = type, UserId = userid };
+                Data.EntityF.File file = new Data.EntityF.File { FileName = uploadedFile.FileName, FilePath = path, FileSize = size, FileType = type, UserId = userid, User = _context.Users.Find(userid) };
                 _context.Files.Add(file);
                 _context.SaveChanges();
             }

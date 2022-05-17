@@ -14,7 +14,7 @@
 
 @foreach(var files in ViewBag.Files)
 {
-    <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.u=UserId </p>
+    <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.UserId </p>
 }
 
 
@@ -32,9 +32,9 @@
   <title>download</title>
  </head>
  <body>
-
+     
 @foreach(var files in ViewBag.Files)
 {
-    <p><a href= @files.filePath  download>Скачать файл @files.fileName</a> </p>
+    <p><a href= @files.FilePath  download>Скачать файл @files.FileName</a> </p>
 }
 </body>

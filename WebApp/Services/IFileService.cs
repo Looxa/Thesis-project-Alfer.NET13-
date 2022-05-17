@@ -31,7 +31,22 @@ namespace FileSharer.Web.Services
                 FilePath = x.FilePath,
                 FileType = x.FileType,
                 FileSize = x.FileSize,
-                UserId = x.UserId
+                UserId = x.UserId,
+                User = new FileSharer.ClassLibrary.Entities.User
+                {
+                    UserId = x.User.UserId,
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    Email = x.User.Email,
+                    Avatar = x.User.Avatar,
+                    RoleId = x.User.RoleId,
+                    Role = new FileSharer.ClassLibrary.Entities.Role
+                    {
+                        Id = x.User.Role.Id,
+                        RoleName = x.User.Role.RoleName
+                    }
+                    
+                }
             });
         }
         public void Add(string fileName, string filePath)
