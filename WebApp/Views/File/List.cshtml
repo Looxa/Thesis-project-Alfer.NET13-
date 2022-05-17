@@ -14,7 +14,7 @@
 
 @foreach(var files in ViewBag.Files)
 {
-    <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.UserId </p>
+    <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.User.LastName @files.User.FirstName, @files.User.Role.RoleName </p>
 }
 
 
