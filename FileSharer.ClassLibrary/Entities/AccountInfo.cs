@@ -8,11 +8,11 @@ namespace FileSharer.ClassLibrary.Entities
 {
     internal class AccountInfo
     {
-        public string AccountId { get; set; }
+        public string Id { get; set; }
         public string Login { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
         public DateTime RegistrationDate { get; set; }
-
-        public int userId { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; } = null!;
     }
 }

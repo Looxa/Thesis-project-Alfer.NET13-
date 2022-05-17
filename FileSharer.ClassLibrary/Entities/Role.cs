@@ -9,6 +9,6 @@ namespace FileSharer.ClassLibrary.Entities
     internal class Role
     {
         public int Id { get; set; }
-        public string roleName { get; set; }
+        public string RoleName { get; set; }
     }
 }

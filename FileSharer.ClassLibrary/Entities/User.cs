@@ -9,10 +9,10 @@ namespace FileSharer.ClassLibrary.Entities
     internal class User
     {
         public int Id { get; set; }
-        public string email { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string avatar { get; set; }  // url? DB? 
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Avatar { get; set; }  // url? DB? 
         public string RoleId { get; set; }
     }
 }

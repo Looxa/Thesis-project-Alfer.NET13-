@@ -9,6 +9,6 @@ namespace FileSharer.Web.Data.EntityF
     public class Role
     {
         public int Id { get; set; }
-        public string roleName { get; set; }
+        public string RoleName { get; set; }
     }
 }
