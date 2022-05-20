@@ -1,64 +1,99 @@
-﻿using FileSharer.Web.Models;
+﻿using FileSharer.Web.ViewModels;
 using FileSharer.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using FileSharer.Web.Data.EntityF;
+using Microsoft.AspNetCore.Authentication;
 
 namespace FileSharer.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAuthService _authService;
+        private AppDBContext _dbContext;
 
-        public AccountController(IAuthService authService)
+        public AccountController(AppDBContext dbContext)
         {
-            _authService = authService;
+            _dbContext = dbContext;
         }
 
-
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Login()
         {
-            if (_authService.IsAuthenticated)
+            return View();
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
-            }
+                User user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                if (user != null)
+                {
+                    await Authenticate(user);
 
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginModel loginModel)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterModel model)
         {
-            if (await _authService.Login(loginModel.Login, loginModel.Password))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
-            }
+                User user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                if (user == null)
+                {
+                    user = new User { Email = model.Email, Password = model.Password, FirstName = model.FirstName, LastName = model.LastName };
+                    Role userRole = await _dbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == "Guest");
+                    if (userRole != null)
+                        user.Role = userRole;
 
-            return View();
+                    _dbContext.Users.Add(user);                    
+                    await _dbContext.SaveChangesAsync();
+
+                    await Authenticate(user);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            }
+            return View(model);
+        }
+        
+        private async Task Authenticate(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.RoleName)
+            };
+            
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register() => View();
-
-        [Authorize]
-        [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await _authService.Logout();
-            return RedirectToAction("Login");
-        }
-
-        [AllowAnonymous]
-        public IActionResult AccessDenied() => View();
-
-        [HttpGet]
-        [Authorize(Policy = "EvaluatedUsers", Roles = "Admin,Manager")]
-        public IActionResult Test()
-        {
-            return Ok();
-        }
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }        
     }
 }

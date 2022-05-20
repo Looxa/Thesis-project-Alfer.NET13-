@@ -22,19 +22,20 @@ namespace FileSharer.Web.Data.EntityF
         {
             modelBuilder.Entity<Role>().HasData(
            new Role[]
-           { new Role{
-               Id = 1,
-               RoleName = "Admin"
-            }
-           });
+           { 
+               new Role{Id = 1, RoleName = "Admin"},
+               new Role{Id = 2, RoleName = "User"},
+               new Role{Id = 3, RoleName = "Guest"}
+           }) ;
             modelBuilder.Entity<User>().HasData(
             new User[]
             { new User{
                 UserId = 1,
+                Password = "1",
                 FirstName = "Александр",
                 LastName = "Сергеев",
                 Email = "1@gmail.com",
-                Avatar = "MOCK",
+                //Avatar = "MOCK",
                 RoleId = 1
             }
             });

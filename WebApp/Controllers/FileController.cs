@@ -4,9 +4,11 @@ using File = FileSharer.ClassLibrary.Entities.File;
 using FileSharer.Web.Services;
 using System.Web;
 using FileSharer.Web.Data.EntityF;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FileSharer.Web.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
     public class FileController : Controller
     {
         public IFileService _fileService;
@@ -20,12 +22,14 @@ namespace FileSharer.Web.Controllers
             _environment = environment;
         }
 
-
+        
         public IActionResult List()
         {
             var files = _fileService.GetAll();
             ViewBag.Files = files;
             return View(_context.Files.ToList());
+            
+           
         }
 
 
@@ -41,9 +45,14 @@ namespace FileSharer.Web.Controllers
             // ДОБАВИТЬ,  БЕЗ УДАЛЕНИЯ ФАЙЛА, ТОЛЬКО УДАЛЕНИЕ В БД, НЕ КАСКАДНОЕ
             _fileService.Delete(id);
         }
-         
-        
-        
+
+       // [Authorize]
+        public void DownloadFile()
+        {
+            //Переделать скачивание файла 
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {
