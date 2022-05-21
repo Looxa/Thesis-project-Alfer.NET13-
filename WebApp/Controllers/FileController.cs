@@ -39,6 +39,7 @@ namespace FileSharer.Web.Controllers
             return _fileService.GetAll();
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpDelete("[controller]/")]
         public void DeleteFile(int id)
         {
@@ -46,10 +47,16 @@ namespace FileSharer.Web.Controllers
             _fileService.Delete(id);
         }
 
-       // [Authorize]
-        public void DownloadFile()
+
+        [Authorize(Roles = "Admin, User")]
+        public FileStreamResult Download(int? id)
         {
-            //Переделать скачивание файла 
+            //Переделать скачивание файла из вьюхи в контроллер, в соответствии с ролью пользователя
+            string file_path = _fileService.GetFilePath(id);
+            FileStream file_stream = new FileStream(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\"+file_path, FileMode.Open);
+            string file_type = @""+ _fileService.GetFileType(id);
+            string file_name = _context.Files.Find(id).FileName;
+            return File(file_stream, file_type, file_name);
         }
 
 
@@ -58,9 +65,7 @@ namespace FileSharer.Web.Controllers
         {
             if (uploadedFile != null)
             {
-                // путь к папке Files
                 string path = "/Files/" + uploadedFile.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
                 using (var fileStream = new FileStream(_environment.WebRootPath + path, FileMode.Create))
                 {
                     await uploadedFile.CopyToAsync(fileStream);

@@ -9,6 +9,8 @@ namespace FileSharer.Web.Services
         public void Add(string fileName, string filePath);
 
         public void Delete(int id);
+        string GetFilePath(int? id);
+        string GetFileType(int? id);
     }
 
 
@@ -60,6 +62,18 @@ namespace FileSharer.Web.Services
             var file = _context.Files.Find(id);
             _context.Files.Remove(file);
             _context.SaveChanges();
+        }
+
+        public string GetFilePath(int? id)
+        {
+            var file = _context.Files.Find(id);
+            return file.FilePath;
+        }
+
+        public string GetFileType(int? id)
+        {
+            var file = _context.Files.Find(id);
+            return file.FileType;
         }
     }
 

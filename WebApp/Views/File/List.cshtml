@@ -15,6 +15,8 @@
 @foreach(var files in ViewBag.Files)
 {
     <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.User.LastName @files.User.FirstName, @files.User.Role.RoleName </p>
+       string fileToFownload = files.FilePath;
+        @Html.ActionLink(fileToFownload, "Download", new { id = files.Id }, "");
 }
 
 
@@ -31,12 +33,6 @@
   <meta charset="utf-8">
   <title>download</title>
  </head>
- <body>
-     
-@foreach(var files in ViewBag.Files)
-{
-    <p><a href= @files.FilePath  download>Скачать файл @files.FileName</a> </p>
-}
-</body>
+
 
 

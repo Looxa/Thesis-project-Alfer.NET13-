@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileSharer.Web.ViewModels
+namespace FileSharer.Web.Models
 {
     public class LoginModel
     {

@@ -1,4 +1,4 @@
-﻿using FileSharer.Web.ViewModels;
+﻿using FileSharer.Web.Models;
 using FileSharer.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

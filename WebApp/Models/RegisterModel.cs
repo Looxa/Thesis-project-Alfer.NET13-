@@ -1,13 +1,13 @@
 ﻿using FileSharer.ClassLibrary.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace FileSharer.Web.ViewModels
+namespace FileSharer.Web.Models
 {
     public class RegisterModel
     {
         [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
-        
+
         [Required(ErrorMessage = "Не указано Имя")]
         public string FirstName { get; set; }
         
