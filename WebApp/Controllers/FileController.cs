@@ -54,7 +54,7 @@ namespace FileSharer.Web.Controllers
             //Переделать скачивание файла из вьюхи в контроллер, в соответствии с ролью пользователя
             string file_path = _fileService.GetFilePath(id);
             FileStream file_stream = new FileStream(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\"+file_path, FileMode.Open);
-            string file_type = @""+ _fileService.GetFileType(id);
+            string file_type = @"aplication/" + _fileService.GetFileType(id).Replace(".", "");
             string file_name = _context.Files.Find(id).FileName;
             return File(file_stream, file_type, file_name);
         }
