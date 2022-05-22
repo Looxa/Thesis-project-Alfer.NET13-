@@ -51,7 +51,6 @@ namespace FileSharer.Web.Controllers
         [Authorize(Roles = "Admin, User")]
         public FileStreamResult Download(int? id)
         {
-            //Переделать скачивание файла из вьюхи в контроллер, в соответствии с ролью пользователя
             string file_path = _fileService.GetFilePath(id);
             FileStream file_stream = new FileStream(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\"+file_path, FileMode.Open);
             string file_type = @"aplication/" + _fileService.GetFileType(id).Replace(".", "");
@@ -60,6 +59,7 @@ namespace FileSharer.Web.Controllers
         }
 
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {

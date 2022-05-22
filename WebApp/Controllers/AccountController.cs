@@ -94,6 +94,18 @@ namespace FileSharer.Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
-        }        
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+
+        public IActionResult AdminPanel()
+        {
+            return View();
+        }
+
     }
 }

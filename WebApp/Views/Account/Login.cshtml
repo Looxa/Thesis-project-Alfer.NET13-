@@ -1,5 +1,16 @@
-﻿@model FileSharer.Web.Models.RegisterModel
+﻿
+@{
+    ViewData["Title"] = "Вход";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model FileSharer.Web.Models.RegisterModel
  
+
+<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen mbr-parallax-background" id="header1-f">
 <h2>Вход на сайт</h2>
  
 <a asp-action="Register" asp-controller="Account">Регистрация</a>
@@ -22,3 +33,5 @@
         </div>
     </div>
 </form>
+
+</section>
