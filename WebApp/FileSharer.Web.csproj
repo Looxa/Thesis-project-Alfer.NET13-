@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\assets\jQuery\" />
     <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 

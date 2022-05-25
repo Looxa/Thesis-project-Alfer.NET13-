@@ -1,39 +1,69 @@
 ﻿
-@model IEnumerable<FileSharer.Web.Data.EntityF.File>
+@model FileSharer.Web.Models.FileModel
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Список файлов";
 }
+<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen" id="header1-f">
 
-<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen mbr-parallax-background" id="header1-f">
-        <div class="mbr-overlay" style="opacity: 0.4; background-color: rgb(190, 211, 249);"></div>
+      <style>
+   .layer {
+  width: 10000px; 
+  padding: 50px; 
+  border: 4px solid wgite; 
+  margin: 5px;
+   }
+  </style>
 
-    <div class="align-center container">
+    <div class="layer">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
 <div class="text-center">
-    <h1 class="display-4">Files</h1>
+    <h1 class="display-10">Список файлов</h1>
+    @*.FirstOrDefault(x => x.Id >= 1)*@
     
-</div>
+
+
 
 
 @foreach(var files in ViewBag.Files)
 {
     <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.User.LastName @files.User.FirstName, @files.User.Role.RoleName </p>
-       string fileToFownload = files.FilePath;
-        @Html.ActionLink(fileToFownload, "Download", new { id = files.Id }, "");
-}
+       string fileToDownload = files.FilePath;
+            <button class = "btn btn-info display-0" onclick="window.location.href = '@Url.Action("Download", "File", new { id = files.Id})'">Cкачать файл @files.FileName</button>
+    
+
+        
+
+      <form class="row justify-content-center" asp-action="DeleteFile" asp-controller="File" method = "post">
+         <div class="col-auto mbr-section-btn align-center">
+              <button type="submit" name = "Id" asp-action = "DeleteFile" value = "@files.Id"  class="btn btn-info display-0">Удалить</button>
+         </div>
+      </form>
+      
 
 
-@{
-    ViewData["Title"] = "Добавление файла";
-}
+ }
+                   <div class="text-center">
+                          @if (ViewBag.Temp == "Cписок пуст. Будте первым, кто добавит файл!")
+                    {
+
+                        <p> @ViewBag.Temp  </p>
+                        
+                    }
+                    </div>
+                    
+
+
+
 <h3>Выберите файл для загрузки</h3>
 <form asp-action="AddFile" asp-controller="File" method="post" enctype="multipart/form-data">
-    <input type="file" name="uploadedFile" /><br>
-    <input type="submit" value="Загрузить" />
+    <input class="btn btn-info display-0" type="file" name="uploadedFile" /><br>
+    <input class="btn btn-info display-0" type="submit" value="Загрузить" />
 </form>
  
  <head>
@@ -42,7 +72,8 @@
  </head>
              </div>
         </div>
-    </div>
- </section>
+</section>
+
+
 
 

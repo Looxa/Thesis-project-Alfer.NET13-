@@ -4,18 +4,34 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen" id="header1-f">
 
-<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen mbr-parallax-background" id="header1-f">
-    <div class="mbr-overlay" style="opacity: 0.4; background-color: rgb(190, 211, 249);"></div>
+    
 
-    <div class="align-center container">
+    
+
+    <div class="align-center container-fluid">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10">
+            <div class="col-12 col-lg-12">
                 <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>Файлообменник</strong></h1>
                 
                 <p class="mbr-text mbr-fonts-style display-7">В этом проекте реализовано хранение файлов на сервере, с записью в БД. Доступ ограничен, для продолжения необходимо зарегистрироваться, либо войти в аккаунт. Изначально новым пользователям присваивается Роль "Guest", для доступа к правам администратора войдите под email: "1@gmail.com" и паролем: "1".</p>
-                <div class="mbr-section-btn mt-3"><a class="btn btn-info display-4" href="https://mobirise.com">Войти</a> <a class="btn btn-info display-4" href="https://mobirise.com">Регистрация</a> <a class="btn btn-black-outline display-4" href="https://mobirise.com">Перейти <br>к файлообменнику</a></div>
+
+                
+                
+                 <div class="mbr-section-btn mt-3">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a class="btn btn-info display-4" asp-area="" asp-controller="Account" asp-action="Logout">Выйти из аккаунта</a>
+                    }
+                    else
+                    {
+                    <a class="btn btn-info display-4" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>               
+                    <a class="btn btn-info display-4" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+                    }
+                    <a class="btn btn-black-outline display-4" asp-area="" asp-controller="File" asp-action="List">Перейти <br>к файлообменнику</a>
+                </div>
             </div>
         </div>
     </div>
- </section>
+</section>

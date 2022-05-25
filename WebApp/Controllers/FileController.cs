@@ -5,6 +5,8 @@ using FileSharer.Web.Services;
 using System.Web;
 using FileSharer.Web.Data.EntityF;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using FileSharer.Web.Models;
 
 namespace FileSharer.Web.Controllers
 {
@@ -14,7 +16,7 @@ namespace FileSharer.Web.Controllers
         public IFileService _fileService;
         private AppDBContext _context;
         private IWebHostEnvironment _environment;
-
+        
         public FileController(IFileService fileService, AppDBContext context, IWebHostEnvironment environment)
         {
             _fileService = fileService;
@@ -25,11 +27,20 @@ namespace FileSharer.Web.Controllers
         
         public IActionResult List()
         {
-            var files = _fileService.GetAll();
-            ViewBag.Files = files;
-            return View(_context.Files.ToList());
+            FileModel fileModel = new FileModel();
+            fileModel.files = _fileService.GetAll();
             
-           
+            ViewBag.Files = fileModel.files;
+            
+            bool filesToTemp = _fileService.NullOrNot();
+
+            if (filesToTemp == true)
+            {
+                ViewBag.Temp = "Cписок пуст. Будте первым, кто добавит файл!";
+            }
+            return View(fileModel);
+
+
         }
 
 
@@ -39,12 +50,16 @@ namespace FileSharer.Web.Controllers
             return _fileService.GetAll();
         }
 
-        [Authorize(Roles = "Admin, User")]
-        [HttpDelete("[controller]/")]
-        public void DeleteFile(int id)
+        [AllowAnonymous]
+      //  [Authorize(Roles = "Admin, User")]
+        [HttpPost()]
+        public async Task<IActionResult> DeleteFile(FileModel fileModel)
         {
+            var file = _context.Files.Find(fileModel.Id);
             // ДОБАВИТЬ,  БЕЗ УДАЛЕНИЯ ФАЙЛА, ТОЛЬКО УДАЛЕНИЕ В БД, НЕ КАСКАДНОЕ
+            int id = file.Id;
             _fileService.Delete(id);
+            return RedirectToAction("List");
         }
 
 
@@ -73,13 +88,22 @@ namespace FileSharer.Web.Controllers
 
                 long size = new System.IO.FileInfo(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\" + path).Length;
                 string type = new System.IO.FileInfo(path).Extension;
-                int userid = 1;  //  ХАРДКОД, ЗАМЕНИТЬ ПРИ АДЕКВАТНОЙ АВТОРИЗАЦИИ ПОЛЬЗОВАТЕЛЯ, ДОБАВИТЬ ПРОВЕРКУ НА РОЛЬ ПОЛЬЗОВАТЕЛЯ 
+
+                string useridTemp = User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                int userid = int.Parse(useridTemp);
                 Data.EntityF.File file = new Data.EntityF.File { FileName = uploadedFile.FileName, FilePath = path, FileSize = size, FileType = type, UserId = userid, User = _context.Users.Find(userid) };
                 _context.Files.Add(file);
                 _context.SaveChanges();
             }
 
             return RedirectToAction("List");
+        }
+        
+
+        public Task<IActionResult> SearchFile(string search)
+        {
+            //var found = _context.Files.FirstOrDefault<>;
+            return null;
         }
     }
 }

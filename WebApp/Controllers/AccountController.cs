@@ -83,7 +83,8 @@ namespace FileSharer.Web.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.RoleName)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.RoleName),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
             
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

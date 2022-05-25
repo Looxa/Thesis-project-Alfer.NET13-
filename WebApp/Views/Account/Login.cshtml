@@ -8,30 +8,54 @@
 }
 
 @model FileSharer.Web.Models.RegisterModel
+
+
  
 
-<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen mbr-parallax-background" id="header1-f">
-<h2>Вход на сайт</h2>
- 
-<a asp-action="Register" asp-controller="Account">Регистрация</a>
- 
-<form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>
-    <div>
-        <div class="form-group">
-            <label asp-for="Email">Введите Email</label>
-            <input type="text" asp-for="Email" />
-            <span asp-validation-for="Email" />
+
+<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen" id="header1-f">
+ <div class="container">
+        <div class="mbr-section-head">
+            <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                <strong>Вход в аккаунт</strong>
+            </h3>
+
         </div>
-        <div class="form-group">
-            <label asp-for="Password">Введите пароль</label>
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Войти" class="btn btn-outline-dark" />
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
+                <form class="mbr-form form-with-styler mx-auto" asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+                   <div class="validation" asp-validation-summary="ModelOnly"></div>
+                    <div class="row">
+                        
+                        <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
+                            Проверьте введенные данные
+                        </div>
+                    </div>
+                    <div class="dragArea row">
+
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group mb-3">
+                            <span asp-validation-for="Email" />
+                            <input type="email" asp-for="Email" placeholder="Email"  class="form-control" id="email-form7-t">
+                            <span asp-validation-for="Email" />
+                        </div>
+                        
+                        <div data-for="phone" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3">
+                            <span asp-validation-for="Password" />
+                            <input type="password" asp-for="Password"  placeholder="Пароль"  class="form-control" id="pass">
+                            <span asp-validation-for="Password" />
+                        </div>
+
+                        <div class="col-auto mbr-section-btn align-center">
+                            <button type="submit" class="btn btn-primary display-4">Войти</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</form>
+</section>
+
+
 
 </section>

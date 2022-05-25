@@ -1,16 +1,18 @@
 ﻿using FileSharer.Web.Data.EntityF;
+using File = FileSharer.Web.Data.EntityF.File;
 
 namespace FileSharer.Web.Services
 {
     public interface IFileService
     {
         public IEnumerable<FileSharer.ClassLibrary.Entities.File> GetAll();
-
+        
         public void Add(string fileName, string filePath);
 
         public void Delete(int id);
         string GetFilePath(int? id);
         string GetFileType(int? id);
+        bool NullOrNot();
     }
 
 
@@ -66,14 +68,36 @@ namespace FileSharer.Web.Services
 
         public string GetFilePath(int? id)
         {
-            var file = _context.Files.Find(id);
-            return file.FilePath;
+            File? file = _context.Files.Find(id);
+
+            if (file != null)
+            {
+                return file.FilePath;
+            }
+            else
+            {
+                return "Cписок пуст. Будте первым, кто добавит файл!";
+            }
+
+
         }
 
         public string GetFileType(int? id)
         {
             var file = _context.Files.Find(id);
             return file.FileType;
+        }
+
+        public bool NullOrNot()
+        {
+            if (_context.Files.Count() == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 

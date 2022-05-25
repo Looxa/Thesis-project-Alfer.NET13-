@@ -8,25 +8,25 @@ namespace FileSharer.Web.Data.EntityF
         public DbSet<Data.EntityF.File> Files { get; set; } = null!;
         public DbSet<Data.EntityF.User> Users { get; set; } = null!;
         //public DbSet<Data.EntityF.AccountInfo> AccountInformation { get; set; } = null!;   // добавить 
-        public DbSet<Data.EntityF.Role> Roles { get; set; } = null!;            
+        public DbSet<Data.EntityF.Role> Roles { get; set; } = null!;
 
         // ДОБАВИТЬ ТАБЛИЦУ ОТНОШЕНИЙ ПОЛЬЗОВАТЕЛЯ И ФАЙЛА
         public AppDBContext(DbContextOptions<AppDBContext> dbContextOptions) : base(dbContextOptions)
         {
 
             Database.EnsureCreated();
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(
            new Role[]
-           { 
+           {
                new Role{Id = 1, RoleName = "Admin"},
                new Role{Id = 2, RoleName = "User"},
                new Role{Id = 3, RoleName = "Guest"}
-           }) ;
+           });
             modelBuilder.Entity<User>().HasData(
             new User[]
             { new User{
@@ -36,9 +36,19 @@ namespace FileSharer.Web.Data.EntityF
                 LastName = "Сергеев",
                 Email = "1@gmail.com",
                 //Avatar = "MOCK",
-                RoleId = 1
-            }
+                RoleId = 1},
+              new User
+              {
+                UserId = 2,
+                Password = "2",
+                FirstName = "Стас",
+                LastName = "Гаврилов",
+                Email = "2@gmail.com",
+                //Avatar = "MOCK",
+                RoleId = 2},
+             
             });
+
         }
     }
 }
