@@ -9,7 +9,13 @@
 
 @model FileSharer.Web.Models.RegisterModel
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
+@{
+    ViewData["Title"] = "Вход";
+}
  
 
 
@@ -51,7 +57,11 @@
                         </div>
                     </div>
                 </form>
+                 <div> 
+                    <a class="btn btn-primary display-4"  asp-controller="Account" asp-action="Register">Регистрация</a>            
+                 </div>
             </div>
+
         </div>
     </div>
 </section>

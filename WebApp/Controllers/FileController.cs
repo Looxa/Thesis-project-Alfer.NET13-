@@ -7,6 +7,9 @@ using FileSharer.Web.Data.EntityF;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using FileSharer.Web.Models;
+using System.Data.Entity;
+//using Microsoft.EntityFrameworkCore;
+
 
 namespace FileSharer.Web.Controllers
 {
@@ -16,7 +19,8 @@ namespace FileSharer.Web.Controllers
         public IFileService _fileService;
         private AppDBContext _context;
         private IWebHostEnvironment _environment;
-        
+        IEnumerable<Data.EntityF.File> FilesModelFull { get; set; }        
+
         public FileController(IFileService fileService, AppDBContext context, IWebHostEnvironment environment)
         {
             _fileService = fileService;
@@ -24,19 +28,19 @@ namespace FileSharer.Web.Controllers
             _environment = environment;
         }
 
-        
+
         public IActionResult List()
         {
             FileModel fileModel = new FileModel();
             fileModel.files = _fileService.GetAll();
-            
+
             ViewBag.Files = fileModel.files;
-            
+
             bool filesToTemp = _fileService.NullOrNot();
 
             if (filesToTemp == true)
             {
-                ViewBag.Temp = "Cписок пуст. Будте первым, кто добавит файл!";
+                ViewBag.Temp = "Файлов нет, но вы держитесь";
             }
             return View(fileModel);
 
@@ -51,12 +55,11 @@ namespace FileSharer.Web.Controllers
         }
 
         [AllowAnonymous]
-      //  [Authorize(Roles = "Admin, User")]
+        //  [Authorize(Roles = "Admin, User")]
         [HttpPost()]
         public async Task<IActionResult> DeleteFile(FileModel fileModel)
         {
             var file = _context.Files.Find(fileModel.Id);
-            // ДОБАВИТЬ,  БЕЗ УДАЛЕНИЯ ФАЙЛА, ТОЛЬКО УДАЛЕНИЕ В БД, НЕ КАСКАДНОЕ
             int id = file.Id;
             _fileService.Delete(id);
             return RedirectToAction("List");
@@ -67,7 +70,7 @@ namespace FileSharer.Web.Controllers
         public FileStreamResult Download(int? id)
         {
             string file_path = _fileService.GetFilePath(id);
-            FileStream file_stream = new FileStream(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\"+file_path, FileMode.Open);
+            FileStream file_stream = new FileStream(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\" + file_path, FileMode.Open);
             string file_type = @"aplication/" + _fileService.GetFileType(id).Replace(".", "");
             string file_name = _context.Files.Find(id).FileName;
             return File(file_stream, file_type, file_name);
@@ -88,9 +91,7 @@ namespace FileSharer.Web.Controllers
 
                 long size = new System.IO.FileInfo(@"C:\Users\Lera\source\repos\Thesis project (Alfer.NET13)\WebApp\wwwroot\" + path).Length;
                 string type = new System.IO.FileInfo(path).Extension;
-
-                string useridTemp = User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                int userid = int.Parse(useridTemp);
+                int userid = int.Parse(User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 Data.EntityF.File file = new Data.EntityF.File { FileName = uploadedFile.FileName, FilePath = path, FileSize = size, FileType = type, UserId = userid, User = _context.Users.Find(userid) };
                 _context.Files.Add(file);
                 _context.SaveChanges();
@@ -98,12 +99,43 @@ namespace FileSharer.Web.Controllers
 
             return RedirectToAction("List");
         }
-        
 
-        public Task<IActionResult> SearchFile(string search)
+
+        public async Task<IActionResult> SearchFile(string search)
         {
-            //var found = _context.Files.FirstOrDefault<>;
-            return null;
+            var files = _fileService.GetAll();
+            var foundResult = from f in files select f;
+            
+            if (!String.IsNullOrEmpty(search))
+
+            {
+                foundResult = foundResult.Where(s => s.FileName!.Contains(search));
+                if (foundResult.Count() == 0)
+                {
+                    File file = new File { FileName = "", FilePath = "", FileSize = 0, FileType = "", UserId = 3, User = _fileService.UsersDBToEntity(3) };
+                    var NullFileModel =  _fileService.GetNullFile(file);
+                    ViewBag.SearchFaild = "Файл не найден ;(";
+                    return View(NullFileModel);
+                }
+            }
+            else
+            {
+                File file = new File { FileName = "", FilePath = "", FileSize = 0, FileType = "", UserId = 3, User = _fileService.UsersDBToEntity(3) };
+                FileModel NullFileModel = new FileModel
+                {
+                    files = new File[] { file }
+                };
+                ViewBag.SearchFaild = "Файл не найден ;(";
+                return View(NullFileModel);
+            };
+
+            FileModel ResultFileModel = new FileModel
+            {
+
+                files = foundResult.ToList()
+            };
+            return View(ResultFileModel);
+
         }
     }
 }

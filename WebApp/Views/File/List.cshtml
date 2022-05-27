@@ -24,7 +24,6 @@
             <div class="col-12 col-lg-10">
 <div class="text-center">
     <h1 class="display-10">Список файлов</h1>
-    @*.FirstOrDefault(x => x.Id >= 1)*@
     
 
 
@@ -49,7 +48,7 @@
 
  }
                    <div class="text-center">
-                          @if (ViewBag.Temp == "Cписок пуст. Будте первым, кто добавит файл!")
+                          @if (ViewBag.Temp == "Файлов нет, но вы держитесь")
                     {
 
                         <p> @ViewBag.Temp  </p>

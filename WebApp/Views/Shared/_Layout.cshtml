@@ -52,7 +52,7 @@
                         <img src="~/assets/images/photo-2022-05-18-12-04-17-127x169.jpeg" alt="" style="height: 4.6rem;">
                     </a>
                 </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-primary display-5" href="https://mobiri.se">My Fale Sharer</a></span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-primary display-5" href="">My Fale Sharer</a></span>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <div class="hamburger">
@@ -65,17 +65,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">        
                      
-                    
-                      <body>
-                        
-                              <p><input class="btn btn-info display-4"  type="search"  placeholder="Поиск по файлам"> 
-                            <p>  <input class="btn btn-info display-4" type="submit" value="Найти"></p>
-                        
-                      </body>
+                        @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                        {
+                         <form asp-controller="File" asp-action="SearchFile">                  
+                           <div class="input-group rounded">
+                               <input type="search" class="form-control rounded" placeholder="Введите имя файла" name = "search" aria-label="Search" aria-describedby="search-addon" />
+                           <div class="input-group-append">
+                               <button class="btn btn-primary display-4" type="submit"  >Поиск </button>
+                          </div>
+                          </div>
+                         </form>   
+                            
+                        }
 
 
 
-                    
                     
                     <li class="nav-item"><a class="nav-link link text-black display-4" asp-area="" asp-controller="Home" asp-action="Index">Главная страница</a></li>
                     <li class="nav-item"><a class="nav-link link text-black display-4" asp-area="" asp-controller="File" asp-action="List">Файлы</a></li>

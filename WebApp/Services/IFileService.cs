@@ -1,4 +1,5 @@
 ﻿using FileSharer.Web.Data.EntityF;
+using FileSharer.Web.Models;
 using File = FileSharer.Web.Data.EntityF.File;
 
 namespace FileSharer.Web.Services
@@ -13,6 +14,13 @@ namespace FileSharer.Web.Services
         string GetFilePath(int? id);
         string GetFileType(int? id);
         bool NullOrNot();
+        FileModel GetNullFile(FileSharer.ClassLibrary.Entities.File file);
+        IEnumerable<FileSharer.ClassLibrary.Entities.User> GetAllUsers();
+        ClassLibrary.Entities.User UsersDBToEntity(int? id);
+
+        User GetUser(int? id);
+        void DeleteUser(User userToDelete);
+        void ChangeRoleUp(User userToChange);
     }
 
 
@@ -98,6 +106,77 @@ namespace FileSharer.Web.Services
             {
                 return false;
             }
+        }
+
+        ClassLibrary.Entities.User IFileService.UsersDBToEntity(int? id)
+        {
+            var user = _context.Users.Find(id);
+            return new ClassLibrary.Entities.User
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                // Avatar = user.Avatar,
+                RoleId = user.RoleId,
+            };
+        }
+        
+        
+        public FileModel GetNullFile(FileSharer.ClassLibrary.Entities.File file)
+        {
+            FileModel NullFileModel = new FileModel
+            {
+                files = new FileSharer.ClassLibrary.Entities.File[] { file }
+            };
+            return NullFileModel;
+        }
+
+
+        IEnumerable<ClassLibrary.Entities.User> IFileService.GetAllUsers()
+        {
+            return _context.Users.Select(x => new FileSharer.ClassLibrary.Entities.User()
+            {
+                UserId = x.UserId,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Email = x.Email,
+                // Avatar = x.User.Avatar,
+                RoleId = x.RoleId,
+                Role = new FileSharer.ClassLibrary.Entities.Role
+                {
+                    //Id = x.User.Role.Id,
+                    RoleName = x.Role.RoleName
+                }
+            });
+        }
+
+        User IFileService.GetUser(int? id)
+        {
+            var user = _context.Users.Find(id);
+            return new User
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                // Avatar = user.Avatar,
+                RoleId = user.RoleId
+            };
+        }
+
+        public void DeleteUser(User userToDelete)
+        {
+            var user = _context.Users.Find(userToDelete.UserId);
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+
+        public void ChangeRoleUp(User userToChange)
+        {
+            var user = _context.Users.Find(userToChange.UserId);
+            user.RoleId = user.Role.Id + 1;
+            _context.SaveChanges();
         }
     }
 

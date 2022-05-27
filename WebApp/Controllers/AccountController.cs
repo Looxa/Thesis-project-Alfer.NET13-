@@ -14,10 +14,13 @@ namespace FileSharer.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private IFileService _fileService;
         private AppDBContext _dbContext;
 
-        public AccountController(AppDBContext dbContext)
+        public AccountController(AppDBContext dbContext, IFileService fileService)
+
         {
+            _fileService = fileService;
             _dbContext = dbContext;
         }
 
@@ -26,7 +29,7 @@ namespace FileSharer.Web.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
@@ -65,7 +68,7 @@ namespace FileSharer.Web.Controllers
                     if (userRole != null)
                         user.Role = userRole;
 
-                    _dbContext.Users.Add(user);                    
+                    _dbContext.Users.Add(user);
                     await _dbContext.SaveChangesAsync();
 
                     await Authenticate(user);
@@ -77,7 +80,7 @@ namespace FileSharer.Web.Controllers
             }
             return View(model);
         }
-        
+
         private async Task Authenticate(User user)
         {
             var claims = new List<Claim>
@@ -86,7 +89,7 @@ namespace FileSharer.Web.Controllers
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.RoleName),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
-            
+
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
@@ -103,10 +106,34 @@ namespace FileSharer.Web.Controllers
         }
 
 
-        public IActionResult AdminPanel()
+        public async Task<IActionResult> AdminPanel()
         {
-            return View();
+            var entityUsers = _fileService.GetAllUsers();
+            UserModel users = new UserModel()
+            {
+                Users = entityUsers.ToList()
+            };
+            return View(users);
+
         }
 
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteUser(int? id)
+        {
+            User userToDelete = _fileService.GetUser(id);
+            _fileService.DeleteUser(userToDelete);
+            return RedirectToAction("AdminPanel", "Account");
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult ChangeRole(int? id)
+        {
+            {
+                return View();  //пока не реализовано
+            }
+
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace FileSharer.Web.Models
 
         public IEnumerable<FileSharer.ClassLibrary.Entities.File> files { get; set; }
 
+
     }
 }

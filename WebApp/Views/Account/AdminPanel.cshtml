@@ -1,6 +1,7 @@
-﻿
+﻿@model FileSharer.Web.Models.UserModel
+
 @{
-    ViewData["Title"] = "Админ панель";
+    ViewData["Title"] = "Админ-панель";
 }
 
 @{
@@ -11,17 +12,82 @@
 <section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen" id="header1-f">
 
     
+            <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users.First().Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users.First().FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users.First().LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users.First().Role.RoleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users.First().UserId)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var item in Model.Users)
+                {
+                if (item.Email == "0@gmail.com")
+                {
+                    
+                    
+                }
+                else
+                {
+                    
+                <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Role.RoleName)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem => item.UserId)
+                        </td>
+                                        <td>
+                                            <a href="@Url.Action("DeleteUser", "Account", new { id = item.UserId })">Удалить</a>
+                                        </td>
+                    @if (item.Role.RoleName == "User")
+                    {
+                                                    <td>
+                                                        <a href="@Url.Action("ChangeRoleUp", "Account", new { id = item.UserId })">Сделать админом</a>
+                                                    </td>
+                    }
+                    @if (item.Role.RoleName == "Guest")
+                    {
+                                                    <td>
+                                                                <a href="@Url.Action("ChangeRole", "Account", new { id = item.UserId })">Сделать пользователем</a>
+                                                   </td>
+                    }
+
+                                        
+
+                    </tr>
+                }
+              }
+            </tbody>
+        </table>
+
+
 
     
-
-    <div class="align-center container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-12">
-                <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>Файлообменник</strong></h1>
-                
-                <p class="mbr-text mbr-fonts-style display-7">В этом проекте реализовано хранение файлов на сервере, с записью в БД. Доступ ограничен, для продолжения необходимо зарегистрироваться, либо войти в аккаунт. Изначально новым пользователям присваивается Роль "Guest", для доступа к правам администратора войдите под email: "1@gmail.com" и паролем: "1".</p>
-                <div class="mbr-section-btn mt-3"><a class="btn btn-info display-4" href="https://mobirise.com">Войти</a> <a class="btn btn-info display-4" href="https://mobirise.com">Регистрация</a> <a class="btn btn-black-outline display-4" href="https://mobirise.com">Перейти <br>к файлообменнику</a></div>
-            </div>
-        </div>
-    </div>
 </section>

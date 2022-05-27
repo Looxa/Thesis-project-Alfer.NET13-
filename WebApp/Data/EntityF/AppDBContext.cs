@@ -46,7 +46,16 @@ namespace FileSharer.Web.Data.EntityF
                 Email = "2@gmail.com",
                 //Avatar = "MOCK",
                 RoleId = 2},
-             
+              new User
+              {
+                UserId = 3,
+                Password = "0",
+                FirstName = "",
+                LastName = "",
+                Email = "0@gmail.com",
+                //Avatar = "MOCK",
+                RoleId = 3},
+
             });
 
         }
