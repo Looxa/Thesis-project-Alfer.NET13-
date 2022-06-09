@@ -77,7 +77,8 @@ namespace FileSharer.Web.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User")]
+        [RequestSizeLimit(524288000000)]
+        [Authorize(Roles = "Admin, User")]  
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {
@@ -106,13 +107,13 @@ namespace FileSharer.Web.Controllers
             var files = _fileService.GetAll();
             var foundResult = from f in files select f;
             
-            if (!String.IsNullOrEmpty(search))
+           if (!String.IsNullOrEmpty(search))
 
             {
                 foundResult = foundResult.Where(s => s.FileName!.Contains(search));
                 if (foundResult.Count() == 0)
                 {
-                    File file = new File { FileName = "", FilePath = "", FileSize = 0, FileType = "", UserId = 3, User = _fileService.UsersDBToEntity(3) };
+                    File file = new File { FileName = "", FilePath = "", FileSize = 0, FileType = "", UserId = 3, User = _fileService.UsersDBToEntity(3)  /*UserName = "Не найдено"*/ };
                     var NullFileModel =  _fileService.GetNullFile(file);
                     ViewBag.SearchFaild = "Файл не найден ;(";
                     return View(NullFileModel);

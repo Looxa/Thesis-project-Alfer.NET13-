@@ -20,7 +20,6 @@ namespace FileSharer.Web.Services
 
         User GetUser(int? id);
         void DeleteUser(User userToDelete);
-        void ChangeRoleUp(User userToChange);
     }
 
 
@@ -172,12 +171,7 @@ namespace FileSharer.Web.Services
             _context.SaveChanges();
         }
 
-        public void ChangeRoleUp(User userToChange)
-        {
-            var user = _context.Users.Find(userToChange.UserId);
-            user.RoleId = user.Role.Id + 1;
-            _context.SaveChanges();
-        }
+        
     }
 
 }

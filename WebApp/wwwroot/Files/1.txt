@@ -1,8 +1,0 @@
-            using IEnumerator<TIn> iterator = new AggregateEnumerator<TIn>(source.ToList()).GetEnumerator();
-            iterator.MoveNext();
-            TIn resultOfAggregate = iterator.Current;
-            while (iterator.MoveNext())
-            {
-                resultOfAggregate = selector(resultOfAggregate, iterator.Current);
-            }
-            return resultOfAggregate;

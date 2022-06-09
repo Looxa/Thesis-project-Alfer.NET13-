@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model FileSharer.Web.Models.RegisterModel
+@model FileSharer.Web.Models.LoginModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,6 +27,8 @@
             </h3>
 
         </div>
+        
+
         <div class="row justify-content-center mt-4">
             <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
                 <form class="mbr-form form-with-styler mx-auto" asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
@@ -55,11 +57,13 @@
                         <div class="col-auto mbr-section-btn align-center">
                             <button type="submit" class="btn btn-primary display-4">Войти</button>
                         </div>
+                        <div class="col-auto mbr-section-btn align-center"> 
+                             <a class="btn btn-primary display-4"  asp-controller="Account" asp-action="Register">Регистрация</a>            
+                        </div>
                     </div>
                 </form>
-                 <div> 
-                    <a class="btn btn-primary display-4"  asp-controller="Account" asp-action="Register">Регистрация</a>            
-                 </div>
+
+                
             </div>
 
         </div>

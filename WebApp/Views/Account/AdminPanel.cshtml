@@ -66,18 +66,10 @@
                                         <td>
                                             <a href="@Url.Action("DeleteUser", "Account", new { id = item.UserId })">Удалить</a>
                                         </td>
-                    @if (item.Role.RoleName == "User")
-                    {
-                                                    <td>
-                                                        <a href="@Url.Action("ChangeRoleUp", "Account", new { id = item.UserId })">Сделать админом</a>
-                                                    </td>
-                    }
-                    @if (item.Role.RoleName == "Guest")
-                    {
-                                                    <td>
-                                                                <a href="@Url.Action("ChangeRole", "Account", new { id = item.UserId })">Сделать пользователем</a>
-                                                   </td>
-                    }
+
+@*                                        <td>
+                                            <a href="@Url.Action("Edit", "Account", new { id = item.UserId })">Изменить роль</a>
+                                        </td>     ИЗМЕНИТЬ ПОСЛЕ КУРСОВ *@   
 
                                         
 

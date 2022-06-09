@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using FileSharer.Web.Data.EntityF;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace FileSharer.Web.Controllers
 {
@@ -17,11 +18,14 @@ namespace FileSharer.Web.Controllers
         private IFileService _fileService;
         private AppDBContext _dbContext;
 
+
+
         public AccountController(AppDBContext dbContext, IFileService fileService)
 
         {
             _fileService = fileService;
             _dbContext = dbContext;
+
         }
 
         [HttpGet]
@@ -44,6 +48,7 @@ namespace FileSharer.Web.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                
             }
             return View(model);
         }
@@ -127,13 +132,55 @@ namespace FileSharer.Web.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult ChangeRole(int? id)
-        {
-            {
-                return View();  //пока не реализовано
-            }
+        /*
+                public async Task<IActionResult> Edit(string userId)
+                {
+                    User user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        var allRoles = _roleManager.Roles.ToList();
+                        ChangeRoleModel model = new ChangeRoleModel
+                        {
+                            UserId = user.UserId,
+                            UserEmail = user.Email,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            UserRoles = userRoles,
+                            AllRoles = allRoles
+                        };
+                        return View(model);
+                    }
 
-        }
+                    return NotFound();
+                }
+
+                [Authorize(Roles = "Admin")]
+                [HttpPost]
+                public async Task<IActionResult> Edit(string userId, List<string> roles)
+                {
+                    {
+
+                        User user = await _userManager.FindByIdAsync(userId);
+                        if (user != null)
+                        {
+
+                            var userRoles = await _userManager.GetRolesAsync(user);
+                            var allRoles = _roleManager.Roles.ToList();
+                            var addedRoles = roles.Except(userRoles);
+                            var removedRoles = userRoles.Except(roles);
+
+                            await _userManager.AddToRolesAsync(user, addedRoles);
+
+                            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+                            return RedirectToAction("AdminPanel", "Account");
+                        }
+
+                        return NotFound();
+
+                    }*/
+
     }
 }
+

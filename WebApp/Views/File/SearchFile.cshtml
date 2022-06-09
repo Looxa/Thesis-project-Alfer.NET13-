@@ -39,7 +39,9 @@
                         @Html.DisplayNameFor(model => model.files.First().FileType)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.files.First().User.FirstName)
+
+                        Имя пользователя 
+                      @*@Html.DisplayNameFor(model => model.files.First().User?.FirstName ?? "asdfsd")*@
                     </th>
                     <th></th>
                 </tr>
@@ -49,10 +51,7 @@
 
                 @foreach (var item in Model.files)
                 {
-        
-                    {
-                        
-                    }
+
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.FileName)
@@ -67,6 +66,8 @@
                             @Html.DisplayFor(modelItem => item.FileType)
                         </td>
                         <td>
+@*                            @{var name = item.User?.FirstName ?? "asdfsd";}
+                            @name*@
 
                             @Html.DisplayFor(modelItem => item.User.FirstName)
                         </td>
