@@ -3,7 +3,38 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSharer.Web", "WebApp\FileSharer.Web.csproj", "{B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{930498D7-307B-4E3B-8B7E-45E0519CD04A} = {930498D7-307B-4E3B-8B7E-45E0519CD04A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSharer.ClassLibrary", "FileSharer.ClassLibrary\FileSharer.ClassLibrary.csproj", "{930498D7-307B-4E3B-8B7E-45E0519CD04A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSharer.UnitTest", "FileSharer.UnitTest\FileSharer.UnitTest.csproj", "{D93570A7-3969-4C95-8CF5-9D4CD9AC479A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{930498D7-307B-4E3B-8B7E-45E0519CD04A} = {930498D7-307B-4E3B-8B7E-45E0519CD04A}
+		{B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6} = {B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6}
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3A31BDB-BD3D-4CFF-8D7F-A59D991305E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{930498D7-307B-4E3B-8B7E-45E0519CD04A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930498D7-307B-4E3B-8B7E-45E0519CD04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930498D7-307B-4E3B-8B7E-45E0519CD04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930498D7-307B-4E3B-8B7E-45E0519CD04A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D93570A7-3969-4C95-8CF5-9D4CD9AC479A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D93570A7-3969-4C95-8CF5-9D4CD9AC479A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D93570A7-3969-4C95-8CF5-9D4CD9AC479A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D93570A7-3969-4C95-8CF5-9D4CD9AC479A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

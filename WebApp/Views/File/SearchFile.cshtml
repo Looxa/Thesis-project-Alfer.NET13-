@@ -1,0 +1,105 @@
+﻿
+@model FileSharer.Web.Models.FileModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Результат поиска";
+}
+
+
+<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen" id="header1-f">
+
+      
+        @if (ViewBag.SearchFaild == "Файл не найден ;(")
+         {
+
+             <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>@ViewBag.SearchFaild</strong></h1>
+                        
+         }
+       
+@if (ViewBag.SearchFaild != "Файл не найден ;(")
+    {
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.files.First().FileName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.files.First().FilePath)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.files.First().FileSize)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.files.First().FileType)
+                    </th>
+                    <th>
+
+                        Имя пользователя 
+                      @*@Html.DisplayNameFor(model => model.files.First().User?.FirstName ?? "asdfsd")*@
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var item in Model.files)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FilePath)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileSize)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileType)
+                        </td>
+                        <td>
+@*                            @{var name = item.User?.FirstName ?? "asdfsd";}
+                            @name*@
+
+                            @Html.DisplayFor(modelItem => item.User.FirstName)
+                        </td>
+                        @if (item.FilePath == "")
+                        {
+
+                        }
+                        else
+                        {
+                                        <td>
+                                            <a class = "btn btn-info display-0" href="@Url.Action("Download", "File", new { id = item.Id })">Скачать</a>
+                                        </td>
+                                        <td>
+                                                  <form class="row justify-content-center" asp-action="DeleteFile" asp-controller="File" method = "post">
+                                                       <div class="col-auto mbr-section-btn align-center">
+                                                              <button type="submit" name = "Id" asp-action = "DeleteFile" value = "@item.Id"  class="btn btn-info display-0">Удалить</button>
+                                                       </div>
+                                                 </form>
+                                        </td>
+                        
+                        }
+
+
+                    </tr>
+                }
+
+
+
+
+
+            </tbody>
+        </table>
+    }
+
+</section>

@@ -1,0 +1,78 @@
+﻿
+@model FileSharer.Web.Models.FileModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Список файлов";
+}
+<section data-bs-version="5.1" class="header1 cid-s48MCQYojq mbr-fullscreen" id="header1-f">
+
+      <style>
+   .layer {
+  width: 10000px; 
+  padding: 50px; 
+  border: 4px solid wgite; 
+  margin: 5px;
+   }
+  </style>
+
+    <div class="layer">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+<div class="text-center">
+    <h1 class="display-10">Список файлов</h1>
+    
+
+
+
+
+@foreach(var files in ViewBag.Files)
+{
+    <p>Id = @files.Id, Name = @files.FileName, Path = @files.FilePath, Type = @files.FileType, Size = @files.FileSize, File Owner = @files.User.LastName @files.User.FirstName, @files.User.Role.RoleName </p>
+       string fileToDownload = files.FilePath;
+            <button class = "btn btn-info display-0" onclick="window.location.href = '@Url.Action("Download", "File", new { id = files.Id})'">Cкачать файл @files.FileName</button>
+    
+
+        
+
+      <form class="row justify-content-center" asp-action="DeleteFile" asp-controller="File" method = "post">
+         <div class="col-auto mbr-section-btn align-center">
+              <button type="submit" name = "Id" asp-action = "DeleteFile" value = "@files.Id"  class="btn btn-info display-0">Удалить</button>
+         </div>
+      </form>
+      
+
+
+ }
+                   <div class="text-center">
+                          @if (ViewBag.Temp == "Файлов нет, но вы держитесь")
+                    {
+
+                        <p> @ViewBag.Temp  </p>
+                        
+                    }
+                    </div>
+                    
+
+
+
+<h3>Выберите файл для загрузки</h3>
+<form asp-action="AddFile" asp-controller="File" method="post" enctype="multipart/form-data">
+    <input class="btn btn-info display-0" type="file" name="uploadedFile" /><br>
+    <input class="btn btn-info display-0" type="submit" value="Загрузить" />
+</form>
+ 
+ <head>
+  <meta charset="utf-8">
+  <title>download</title>
+ </head>
+             </div>
+        </div>
+</section>
+
+
+
+
